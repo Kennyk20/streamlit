@@ -1,0 +1,43 @@
+import streamlit as st
+
+# Placeholder: Simulated case summaries
+demo_cases = {
+    "Case 1": "Postmenopausal bleeding in a 58-year-old woman. A complex endometrial biopsy shows grade 1 endometrioid adenocarcinoma. MRI reveals a 3 cm mass confined to the uterus without myometrial invasion.",
+    "Case 2": "A 63-year-old man with a history of smoking. Presents with a persistent cough. CT shows a 4 cm spiculated mass in right upper lobe. Biopsy confirms squamous cell carcinoma.",
+    "Case 3": "A 45-year-old woman with triple-negative breast cancer. 2.5 cm left breast mass and metastatic axillary node. No distant metastases."
+}
+
+# Placeholder: AI model inference logic
+def generate_ai_recommendation(case_summary):
+    # Simulated output — in practice, replace with API call to Azure OpenAI or local model
+    return {
+        "Clinical Impression": "Patient presents with low-grade malignancy. Early-stage disease likely based on imaging and pathology.",
+        "Treatment Recommendation": "Recommend total hysterectomy with bilateral salpingo-oophorectomy."
+    }
+
+# App layout
+st.title("Clinical Review Prototype")
+
+# Sidebar for case selection
+st.subheader("Select a case")
+selected_case = st.radio("", list(demo_cases.keys()))
+st.write(f"**Case Summary:**\n\n{demo_cases[selected_case]}")
+
+# Generate recommendation
+if st.button("Generate Recommendation"):
+    ai_output = generate_ai_recommendation(demo_cases[selected_case])
+    
+    st.subheader("AI-Generated Recommendation")
+    impression = st.text_area("Clinical Impression", ai_output["Clinical Impression"])
+    recommendation = st.text_area("Treatment Recommendation", ai_output["Treatment Recommendation"])
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.button("Accept")
+    with col2:
+        st.button("Edit")
+    with col3:
+        st.button("Export")
+
+# (Optional) Store/edit log for fine-tuning
+# You can expand this by saving inputs and edits to Delta Lake
